@@ -1,30 +1,43 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <preloader-block  v-if="preloader"/>
   <router-view/>
 </template>
 
+<script>
+import { mapActions, mapState } from 'vuex';
+import PreloaderBlock from '@/components/PreloaderBlock.vue';
+
+export default {
+  components: {
+    PreloaderBlock,
+  },
+  created() {
+    this.getTodoListAction(); // Оно тут из-за особенности работы API
+  },
+  methods: {
+    ...mapActions({
+      getTodoListAction: 'getTodoList',
+    }),
+  },
+  computed: {
+    ...mapState([
+      'preloader',
+    ]),
+  },
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+ul {
+  list-style: none;
+}
+body {
+  background-color: #e4e4e4;
+  font-family: 'Arial', sans-serif;
 }
 </style>
